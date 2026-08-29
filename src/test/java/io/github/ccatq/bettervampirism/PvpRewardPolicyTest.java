@@ -1,7 +1,6 @@
 package io.github.ccatq.bettervampirism;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.GameType;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -10,18 +9,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PvpRewardPolicyTest {
     @Test
     void acceptsOnlySurvivalAndAdventure() {
-        assertTrue(PvpRewardPolicy.isEligibleGameMode(GameType.SURVIVAL));
-        assertTrue(PvpRewardPolicy.isEligibleGameMode(GameType.ADVENTURE));
-        assertFalse(PvpRewardPolicy.isEligibleGameMode(GameType.CREATIVE));
-        assertFalse(PvpRewardPolicy.isEligibleGameMode(GameType.SPECTATOR));
+        assertTrue(PvpRewardPolicy.isEligibleGameMode("survival"));
+        assertTrue(PvpRewardPolicy.isEligibleGameMode("adventure"));
+        assertFalse(PvpRewardPolicy.isEligibleGameMode("creative"));
+        assertFalse(PvpRewardPolicy.isEligibleGameMode("spectator"));
     }
 
     @Test
     void acceptsOnlyVampireAndHunterPairs() {
-        assertTrue(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.VAMPIRE_FACTION, PvpRewardPolicy.HUNTER_FACTION));
-        assertTrue(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.HUNTER_FACTION, PvpRewardPolicy.VAMPIRE_FACTION));
-        assertFalse(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.VAMPIRE_FACTION, PvpRewardPolicy.VAMPIRE_FACTION));
-        assertFalse(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.VAMPIRE_FACTION, ResourceLocation.fromNamespaceAndPath("minecraft", "neutral")));
+        assertTrue(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.VAMPIRE_FACTION_ID, PvpRewardPolicy.HUNTER_FACTION_ID));
+        assertTrue(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.HUNTER_FACTION_ID, PvpRewardPolicy.VAMPIRE_FACTION_ID));
+        assertFalse(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.VAMPIRE_FACTION_ID, PvpRewardPolicy.VAMPIRE_FACTION_ID));
+        assertFalse(PvpRewardPolicy.areOpposingPlayableFactions(PvpRewardPolicy.VAMPIRE_FACTION_ID, "minecraft:neutral"));
     }
 
     @Test

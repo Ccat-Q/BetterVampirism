@@ -43,7 +43,7 @@ public final class PvpKillRewards {
         IPlayableFaction<?> killerFaction = killerHandler.getCurrentFaction();
         IPlayableFaction<?> victimFaction = victimHandler.getCurrentFaction();
         if (killerFaction == null || victimFaction == null
-                || !PvpRewardPolicy.areOpposingPlayableFactions(killerFaction.getID(), victimFaction.getID())) {
+                || !PvpRewardPolicy.areOpposingPlayableFactions(killerFaction.getID().toString(), victimFaction.getID().toString())) {
             return;
         }
 
@@ -55,7 +55,7 @@ public final class PvpKillRewards {
         }
 
         increaseLevel(killerHandler, killerFaction);
-        if (PvpRewardPolicy.VAMPIRE_FACTION.equals(killerFaction.getID())) {
+        if (PvpRewardPolicy.VAMPIRE_FACTION_ID.equals(killerFaction.getID().toString())) {
             drop(victim, HUMAN_HEART, BetterVampirismConfig.VAMPIRE_KILLS_HUNTER);
         } else {
             drop(victim, VAMPIRE_FANG, BetterVampirismConfig.HUNTER_KILLS_VAMPIRE_FANG);
@@ -81,7 +81,7 @@ public final class PvpKillRewards {
 
     private static boolean isEligiblePlayer(ServerPlayer player) {
         GameType gameType = player.gameMode.getGameModeForPlayer();
-        return PvpRewardPolicy.isEligibleGameMode(gameType);
+        return PvpRewardPolicy.isEligibleGameMode(gameType.getName());
     }
 
     private static void increaseLevel(IFactionPlayerHandler handler, IPlayableFaction<?> faction) {
