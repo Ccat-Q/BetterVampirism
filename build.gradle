@@ -30,6 +30,11 @@ neoForge {
             sourceSet(sourceSets.main)
         }
     }
+
+    unitTest {
+        enable()
+        testedMod = mods.getByName(mod_id)
+    }
 }
 
 configurations {
@@ -41,6 +46,7 @@ dependencies {
     localRuntime "de.teamlapen.vampirism:Vampirism:${vampirism_version}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test', Test).configure {
