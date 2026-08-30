@@ -53,6 +53,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+      - name: Cache Youer Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-youer-486e68ff-gradle-v1
       - name: Build the pinned Youer server
         run: |
           set -euo pipefail
