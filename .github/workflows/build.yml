@@ -59,7 +59,8 @@ jobs:
           chmod +x youer/gradlew
           (
             cd youer
-            ./gradlew setup youerJar --no-daemon
+            ./gradlew setup --no-daemon
+            ./gradlew youerJar --no-daemon
           )
       - name: Install Better Vampirism and Vampirism
         run: |
