@@ -88,7 +88,11 @@ jobs:
           timeout 180s java -jar youer.jar nogui > server.log 2>&1
           server_exit=$?
           set -e
-          find . -type f -name '*.log' -print -exec cat {} \; > combined.log
+          {
+            printf '%s\n' './server.log'
+            cat server.log
+            find logs -type f -name '*.log' -print -exec cat {} \;
+          } > combined.log
           if grep -Fq 'InvalidVersionSpecificationException' combined.log; then
             cat combined.log
             exit 1
