@@ -85,7 +85,7 @@ jobs:
           set -euo pipefail
           cd server
           set +e
-          timeout 180s java -jar youer.jar nogui > server.log 2>&1
+          timeout 180s java -Dyouer.debug=true -jar youer.jar nogui > server.log 2>&1
           server_exit=$?
           set -e
           {
@@ -113,3 +113,14 @@ jobs:
             cat combined.log
             exit "$server_exit"
           fi
+      - name: Upload Youer server logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Youer-server-logs
+          path: |
+            server/server.log
+            server/combined.log
+            server/logs
+            server/crash-reports
+          if-no-files-found: warn
