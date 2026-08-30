@@ -81,23 +81,24 @@ jobs:
           timeout 180s java -jar youer.jar nogui > server.log 2>&1
           server_exit=$?
           set -e
-          if grep -Fq 'InvalidVersionSpecificationException' server.log; then
-            cat server.log
+          find . -type f -name '*.log' -print -exec cat {} \; > combined.log
+          if grep -Fq 'InvalidVersionSpecificationException' combined.log; then
+            cat combined.log
             exit 1
           fi
-          if ! grep -Fq 'NeoForge 21.1.243' server.log; then
-            cat server.log
+          if ! grep -Fq 'NeoForge 21.1.243' combined.log; then
+            cat combined.log
             exit 1
           fi
-          if ! grep -Fq 'Better Vampirism 1.0.0 (bettervampirism)' server.log; then
-            cat server.log
+          if ! grep -Fq 'Better Vampirism 1.0.0 (bettervampirism)' combined.log; then
+            cat combined.log
             exit 1
           fi
-          if ! grep -Fq 'Done (' server.log; then
-            cat server.log
+          if ! grep -Fq 'Done (' combined.log; then
+            cat combined.log
             exit 1
           fi
           if [ "$server_exit" -ne 124 ] && [ "$server_exit" -ne 0 ]; then
-            cat server.log
+            cat combined.log
             exit "$server_exit"
           fi
