@@ -28,7 +28,6 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="vampirism"
 type="required"
-versionRange="[${vampirism_version},${vampirism_version}]"
+versionRange="[${vampirism_version}]"
 ordering="AFTER"
 side="BOTH"
-
