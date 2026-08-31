@@ -38,9 +38,7 @@ configurations {
 }
 
 dependencies {
-    // Uses Vampirism's exact runtime implementation to resolve the active village totem.
-    // Keep this aligned with the required runtime version in neoforge.mods.toml.
-    compileOnly "de.teamlapen.vampirism:Vampirism:${vampirism_version}"
+    compileOnly "de.teamlapen.vampirism:Vampirism:${vampirism_version}:api"
     localRuntime "de.teamlapen.vampirism:Vampirism:${vampirism_version}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'

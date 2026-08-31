@@ -3,16 +3,18 @@ package io.github.ccatq.bettervampirism;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.ICaptureIgnore;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.blockentity.TotemBlockEntity;
-import de.teamlapen.vampirism.util.TotemHelper;
+import de.teamlapen.vampirism.api.world.ITotem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 /** Reports the active-capture participants when a player rings a bell. */
@@ -27,11 +29,28 @@ public final class VillageRaidBellStatus {
             return;
         }
 
-        TotemHelper.getTotemNearPos(level, player.blockPosition(), false)
+        findNearbyTotem(level, player.blockPosition())
                 .ifPresent(totem -> reportActiveRaid(player, totem));
     }
 
-    private static void reportActiveRaid(ServerPlayer player, TotemBlockEntity totem) {
+    private static Optional<ITotem> findNearbyTotem(ServerLevel level, BlockPos center) {
+        ITotem nearest = null;
+        double nearestDistance = Double.MAX_VALUE;
+        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-25, -16, -25), center.offset(25, 16, 25))) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (!(blockEntity instanceof ITotem totem)) {
+                continue;
+            }
+            double distance = pos.distSqr(center);
+            if (distance < nearestDistance) {
+                nearest = totem;
+                nearestDistance = distance;
+            }
+        }
+        return Optional.ofNullable(nearest);
+    }
+
+    private static void reportActiveRaid(ServerPlayer player, ITotem totem) {
         IFaction<?> attackers = totem.getCapturingFaction();
         IFaction<?> defenders = totem.getControllingFaction();
         if (attackers == null) {
