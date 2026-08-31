@@ -16,6 +16,7 @@ public final class BetterVampirism {
     public BetterVampirism(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.SERVER, BetterVampirismConfig.SPEC);
         NeoForge.EVENT_BUS.addListener(PvpKillRewards::onLivingDeath);
+        NeoForge.EVENT_BUS.addListener(VillageRaidBellStatus::onRightClickBell);
     }
 }
 
